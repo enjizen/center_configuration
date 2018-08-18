@@ -8,13 +8,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class PropertiesService {
-
-
     private val logger = LogManager.getLogger(this.javaClass)
 
     @Autowired
     private val propertiesRepository: PropertiesRepository? = null
-
 
     fun getProperties(application: String, profile: String): MutableList<Properties> {
         logger.info("Get properties by [{}] application and [{}] profile", application, profile)

@@ -23,26 +23,20 @@ class ConfigurationController {
     @GetMapping(value  = ["/{application}/{profile}"])
     fun getConfiguration(@PathVariable("application") application: String,
                          @PathVariable("profile") profile: String): ResponseEntity<*> {
-
         logger.info("================ Start get configuration ========================")
         val profiles = mutableListOf<String>()
         profiles.add(profile)
-
         val propertiesEntityList = propertiesService.getProperties(application, profile)
         val configurationMap = HashMap<String, String>()
         propertiesEntityList.forEach {
             configurationMap[it.key!!] = it.value!!
         }
-
         val scopePropertySourceResponse = PropertySourceResponse(name = "$application.properties", source =  configurationMap)
-
         val propertySourceResponses = mutableListOf<PropertySourceResponse>()
         propertySourceResponses.add(scopePropertySourceResponse)
-
         val getConfigurationResponse = GetConfigurationResponse(name = application
                                                                 , profiles = profiles
                                                                 , propertySources = propertySourceResponses)
-
         logger.info("========== End get configuration ========================")
         return ResponseEntity.ok(getConfigurationResponse)
     }
